@@ -1,0 +1,74 @@
+.. image:: /images/hpe_logo2.png
+   :width: 150pt
+
+|
+
+==================
+Installation Guide
+==================
+
+The python-ilorest-library supports **Python 2** (Up to 2.7.15, which is the EOL version) and **Python 3** (At present, 3.8).
+
+Pip install
+===========
+
+Standard install
+----------------
+::
+
+ pip install python-ilorest-library
+
+With SOCKS proxy support
+------------------------
+
+Starting with **version 2.5.0** of the python-ilorest-library, you can include the SOCKS proxy add-on if you need that support.
+
+::
+
+ pip install python-ilorest-library[socks]
+
+Building from Source
+====================
+
+
+Checkout using SVN (Subversion)
+-------------------------------
+
+Assuming that SVN is already installed in your system and it is already in the system path, run the following command from the directory where you want to copy the source.
+
+::
+
+ svn checkout https://github.hpe.com/intelligent-provisioning/python-redfish-library.git
+
+Clone using GIT
+---------------
+
+Run the following command from the directory where you want to copy the source.
+
+::
+
+ git clone https://github.hpe.com/intelligent-provisioning/python-redfish-library.git
+
+Building Source
+---------------
+
+After you have checked out the latest code, run the following commands:
+
+::
+
+ cd python-ilorest-library
+ python setup.py sdist --formats=zip (this will produce a .zip file)
+ cd dist
+ pip install python-ilorest-library-x.x.x.zip[socks]
+
+A successful installation will display that python-ilorest-library-x.x.x and the dependencies have been successfully installed.
+
+Building From Source With SOCKS Proxy Support
+---------------------------------------------
+
+::
+
+ cd python-ilorest-library
+ python setup.py sdist --formats=zip (this will produce a .zip file)
+ cd dist
+ pip install python-ilorest-library-x.x.x.zip[socks]

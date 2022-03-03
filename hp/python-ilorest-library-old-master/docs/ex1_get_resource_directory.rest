@@ -1,0 +1,75 @@
+.. image:: /images/hpe_logo2.png
+   :width: 150pt
+   
+|
+
+.. toctree::
+   :maxdepth: 1
+   
+
+First create an instance of Rest or Redfish Object using the  **RestObject** or **RedfishObject** class respectively. The class constructor takes iLO hostname/ ip address formatted as a string ("https://xx.xx.xx.xx"), iLO login username and password as arguments. The class also initializes a login session, gets systems resources and message registries.
+
+Rest Object creation:
+
+.. code-block:: python
+
+ REST_OBJ = RestObject(iLO_https_host, login_account, login_password)
+
+::
+
+Redfish Object creation:
+
+.. code-block:: python
+
+ REDFISH_OBJ = RedfishObject(iLO_https_host, login_account, login_password)
+
+::
+
+
+Example 1: Get resource directory
+=================================
+
+
+The method **ex1_get_resource_directory** takes an instance of rest object (or redfish object if using Redfish API) as argument.
+
+.. code-block:: python
+
+
+  def ex1_get_resource_directory(restobj):
+
+::
+
+A Restful GET request is performed next  by calling the Rest object's get method  with the resource directory URI ('**/rest/v1/resourcedirectory**') as parameter.  For Redfish RESTful request the URI is ('**/redfish/v1/resourcedirectory**')
+
+.. code-block:: python
+
+ response = restobj.rest_get("/rest/v1/resourcedirectory")
+
+::
+
+For a successful response status, resource directory is retrieved from the response body.
+
+.. code-block:: python
+
+ if response.status == 200:
+        sys.stdout.write("\tFound resource directory at /rest/v1/resource" \
+                                                            "directory" + "\n\n")
+        SYSTEMS_RESOURCES["resources"] = response.dict["Instances"]
+        
+ else:
+        sys.stderr.write("\tResource directory missing at /rest/v1/resource" \
+                                                            "directory" + "\n")
+
+::
+
+Nested within the if, else statement, resources are listed by type and URI. A try and except is used to skip those without types.
+
+.. code-block:: python
+
+ for resource in response.dict["Instances"]:
+    try:
+    sys.stdout.write("\t" + str(resource["@odata.type"]) + \
+                           "\n\t\t" + str(resource["@odata.id"]) + "\n")
+    except KeyError:
+        pass
+::

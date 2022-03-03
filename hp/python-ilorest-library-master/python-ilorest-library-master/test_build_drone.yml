@@ -1,0 +1,183 @@
+kind: pipeline
+name: Redfish_Library_Drone_Test
+
+steps:
+- name: Github_Analyzer
+  image: python:3.7.2-alpine3.8
+  pull: true
+  volumes:
+  - name: drone_store
+    path: /tmp/store
+  - name: drone_slate
+    path: /tmp/slate
+  environment:
+    HTTP_PROXY: http://web-proxy.houston.hpecorp.net:8080
+    GITHUB_USERNAME:
+      from_secret: github_username
+    GITHUB_PASSWORD:
+      from_secret: github_password
+    DRONE_STORE_PATH: /tmp/store/
+    SLATE_SHARE_PATH: /tmp/slate/
+    DOCS: 'library'
+  commands:
+  - easy_install distribute
+  - apk add git
+  - echo $(git --version)
+  - pip install --upgrade pip
+  - pip install -U sphinx
+  - pip install sphinxcontrib.restbuilder jsonpatch jsonpath_rw
+  - python /tmp/store/drone_pr_selector_data_gatherer.py
+  - more tmp.json
+  trigger:
+    event:
+      exclude:
+        -push
+
+- name: RIS-library-Tester-2.7
+  image: python:2.7
+  pull: true
+  volumes:
+  - name: drone_store
+    path: /tmp/store
+  environment:
+    HTTP_PROXY: http://web-proxy.houston.hpecorp.net:8080
+    PYTHON: 27
+    GITHUB_USERNAME:
+      from_secret: github_username
+    GITHUB_PASSWORD:
+      from_secret: github_password
+    DRONE_STORE_PATH: /tmp/store/
+    PYTYPE_CONFIG: tests/pytype/pytype.cfg
+    REPO_OWNER: intelligent-provisioning
+    REPO_NAME: python-redfish-library
+    PYTYPE_DIR: redfish
+    #LIBRARY: "http://github.hpe.com/intelligent-provisioning/python-redfish-library.git"
+    RESULTS_URL: http://infinitymaster.us.rdlabs.hpecorp.net:1051/Drone_Git_Build_Data/
+    PYLINT: true
+    UNIT_TEST: true
+  commands:
+  - easy_install distribute
+  - echo "python_version = 2.7" >> tests/pytype/pytype.cfg
+  - more tests/pytype/pytype.cfg
+  - echo "Upgrading Pip"
+  - pip install --upgrade pip
+  - echo "Installing Python iLORest Library"
+  - python setup.py sdist --formats=zip
+  - pip install --upgrade dist/python-ilorest-library-*.zip
+  - echo "Installing Test Libraries"
+  - pip install --upgrade pip
+  - pip install pylint pytest pytest-logging mock requests ntplib datetime pytz pytype inspect-it future six
+  #- echo "Installing Library Requirements"
+  #- pip install redfish
+  #- pip install -r requirements.txt
+  #- python /tmp/store/libs_parse_installer.py
+  - echo "Running Analysis" 
+  - python /tmp/store/drone_analyzer.py
+  - more tmp.json
+  #    --cov=./src/extensions/*      
+  #    --html=./tests/ilorest_tests/_results/tests/index.html \
+  #    --cov-report=html:./test/ilorest_tests/_results/py2/coverage \
+  #    --junit-xml=./tests/ilorest_tests/_results/py2/test-results.xml \
+  #    --cov-report=html:./tests/ilorest_tests/_results/py2/coverage.xml
+  #- cat ./tests/pmemtests/_results/data/pylint-results.txt
+  #- cat ./tests/pmemtests/_results/data/pylint-py3-results.txt
+  #- echo $rc2
+  # fatal=1 | error=2 | usage error=32
+  #- exit $(( $rc & 35 ))
+
+- name: RIS-library-Tester-3.5
+  image: python:3.5
+  pull: true
+  volumes:
+  - name: drone_store
+    path: /tmp/store
+  environment:
+    HTTP_PROXY: http://web-proxy.houston.hpecorp.net:8080
+    PYTHON: 35
+    GITHUB_USERNAME:
+      from_secret: github_username
+    GITHUB_PASSWORD:
+      from_secret: github_password
+    RESTLAX_FILE_PATH: /tmp/store/Restlax_web.txt
+    DRONE_STORE_PATH: /tmp/store/
+    PYTYPE_CONFIG: tests/pytype/pytype.cfg
+    REPO_OWNER: intelligent-provisioning
+    REPO_NAME: python-redfish-library
+    PYTYPE_DIR: redfish
+    #LIBRARY: "http://github.hpe.com/intelligent-provisioning/python-redfish-library.git"
+    RESULTS_URL: http://infinitymaster.us.rdlabs.hpecorp.net:1051/Drone_Git_Build_Data/
+    PYLINT: true
+    UNIT_TEST: true
+  commands:
+  - echo "python_version = 3.5" >> tests/pytype/pytype.cfg
+  - more tests/pytype/pytype.cfg
+  - echo "Upgrading Pip"
+  - pip install --upgrade pip
+  - echo "Installing Python iLORest Library" #easier to reference packages by installing the library
+  - python setup.py sdist --formats=zip
+  - pip install --upgrade dist/python-ilorest-library-*.zip
+  - echo "Installing Additional Libraries"
+  - pip install --upgrade pip
+  - pip install pylint pytest mock requests ntplib datetime pytz pytype redfish inspect-it six
+  #- echo "Installing Library Requirements"
+  #- pip install redfish
+  #- pip install -r requirements.txt
+  #- python /tmp/store/libs_parse_installer.py
+  - echo "Running Analysis" 
+  - python /tmp/store/drone_analyzer.py
+  - more tmp.json
+  #- pytest tests/unit/ > pytype_results.txt
+  #- more pytype_results.txt
+
+#- name: notify-email
+# hub.docker.hpecorp.net/ilorest/email_notify:latest
+#  image: drillster/drone-email 
+#  settings:
+#    host: smtp3.hpe.com
+#    skip_verify: true
+#    port: 25
+#    from: grant.oconnor@hpe.com
+#    recipients: [grant.oconnor@hpe.com] 
+#   #- ILORest-Notify@groups.int.hpe.com
+
+- name: Comment_Issuer
+  image: python:3.7.2-alpine3.8
+  pull: true
+  volumes:
+  - name: drone_store
+    path: /tmp/store
+  - name: drone_slate
+    path: /tmp/slate
+  environment:
+    HTTP_PROXY: http://web-proxy.houston.hpecorp.net:8080
+    GITHUB_USERNAME:
+      from_secret: github_username
+    GITHUB_PASSWORD:
+      from_secret: github_password
+    DRONE_STORE_PATH: /tmp/store/
+    SLATE_SHARE_PATH: /tmp/slate/
+    RESTLAX_FILE_PATH: /tmp/store/Restlax_web.txt
+    RESULTS_URL: http://infinitymaster.us.rdlabs.hpecorp.net:1051/Drone_Git_Build_Data/
+    DOCS: 'library'
+  commands:
+  - easy_install distribute
+  - echo "Upgrading Pip"
+  - pip install --upgrade pip
+  - pip install requests
+  - more tmp.json
+  - python /tmp/store/github_comment_issuer.py
+  trigger:
+    event:
+      exclude:
+        -push
+
+volumes:
+- name: drone_store
+  host:
+    path: /opt/docker_drone_share/
+- name: drone_slate
+  host:
+    path: /opt/docker_slate_share/
+trigger:
+  event:
+  - pull_request

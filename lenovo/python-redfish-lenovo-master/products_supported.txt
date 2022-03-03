@@ -1,0 +1,24 @@
+| Category           | Script Name                              | ThinkSystem   | ThinkSystem   | ThinkSystem    | ThinkSystem v2  |
+|                    |                                          | AMD 1P (Rome) | AMD 2P (Rome) | Intel (Purley) | Intel (Whitley) |
+|--------------------|------------------------------------------|---------------|---------------|----------------|-----------------|
+| RAID Configuration | lenovo_create_raid_volume.py             |     NO        |     Yes *4    |     Yes        |     Yes         |
+|                    | lenovo_delete_raid_volume.py             |     NO        |     Yes *4    |     Yes        |     Yes         |
+|                    | lenovo_update_raid_volume.py             |     NO        |     Yes *4    |     Yes        |     Yes         |
+
+
+*1: Need to ajust the jumper
+*2: After enabling user, may request changing password for first login
+*3: Not supported for SN550 (v2), SN850 (v2), SD530, SD650 (v2). 
+*4: Supported from firmware release of March, 2021. Not supported for SD530, SD650 (v2).
+*5: Not supported for SN550 (v2), SN850 (v2). These info are controlled by CMM or SMM.
+
+ThinkSystem AMD 1P (Rome):      SR635, SR655
+ThinkSystem AMD 2P (Rome):      SR645, SR665
+ThinkSystem Intel (Purley):     SR530, SR550, SR570, SR590, SR630,  SR650, SR670, SR850P, SR860, SR950, SD530, SD650, SN550, SN850, ST550
+ThinkSystem v2 Intel (Whitley): SR850 v2, SR860 v2
+
+Note: on different products, there will be little different behaviors and properties per hardware design and Redfish spec/schema supported.
+
+ThinkSystem  AMD 1P (Rome) 
+ThinkSystem  AMD 1P (Rome)
+ThinkSystem v2  AMD 2P (Rome) 

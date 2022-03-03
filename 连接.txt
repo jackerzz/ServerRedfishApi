@@ -1,0 +1,18 @@
+#dell
+https://www.dmtf.org/cn/standards/redfish
+https://www.dell.com/support/kbdoc/zh-cn/000178045/redfish-api-with-dell-integrated-remote-access-controller
+https://api-marketplace.dell.com/#/overview-doc/2978/6818/docs/0WhatsNew.md
+https://www.dell.com/community/Systems-Management-General/Configure-R740-SecureBoot-Certificates-using-Redfish/td-p/7991972
+
+#lenovo
+https://sysmgt.lenovofiles.com/help/index.jsp?topic=%2Fcom.lenovo.systems.management.xcc.doc%2Frest_api.html
+
+# HP     172.31.129.81--成功      administrator cfets123
+https://hewlettpackard.github.io/ilo-rest-api-docs/ilo5/
+
+# 华三   R4900 G3  172.31.128.33---成功    admin Password@_
+## H3C 服务器 HDM 用户指南-2.XX-6W100
+https://www.h3c.com/en/d_202104/1406674_294551_0.html
+https://www.h3c.com/cn/Service/Document_Software/TechnicalInfo/PorductMaintanInfo/Server/
+## 白皮书
+https://www.h3c.com/en/Support/Resource_Center/EN/Home/Severs/00-Public/Trending/Technology_White_Papers/H3C_HDM_Redfish_Technology_WP-6W100/

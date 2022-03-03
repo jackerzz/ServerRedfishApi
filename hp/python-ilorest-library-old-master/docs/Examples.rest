@@ -1,0 +1,80 @@
+.. image:: /images/hpe_logo2.png
+   :width: 150pt
+   
+|
+
+.. toctree::
+   :maxdepth: 1
+
+========
+Examples
+========
+
+
+
+|
+
+
+RestfulApiExamples.py and RedfishAPiExamples.py modules contain few examples for performing different iLO tasks using legacy RESTful API and Redfish API respectively. The examples in this page are legacy RESTful examples and are very similar to their  Redfish equivalents. The HPE RESTful API 1.x expresses the root Uniform Resource Identifier (URI) protocol version as “**/rest/v1**”. Redfish 1.0 expresses
+the starting URI as “**/redfish/v1/**”.
+
+Redfish changes the linking between resources, for example  “**href**” is renamed to “**@odata.id**”. For more information about Redfish implementation click `here <http://www8.hp.com/h20195/v2/GetPDF.aspx/4AA6-1727ENW.pdf>`_ .
+
+
+
+The following examples can all be used as guidance for `managing iLO using iLO RESTful API <https://github.com/HewlettPackard/python-ilorest-library/blob/master/docs/Managing_HPE_Servers_Using_RESTful_API.md>`_.
+
+
+.. toctree::
+   :maxdepth: 1
+   
+   ex1_get_resource_directory
+   ex2_get_base_registry
+   ex3_change_bios_setting
+   ex4_reset_server
+   ex5_enable_secure_boot
+   ex6_bios_revert_default
+   ex7_change_boot_order
+   ex8_change_temporary_boot_order
+   ex9_find_ilo_mac_address
+   ex10_add_ilo_user_account
+   ex11_modify_ilo_user_account
+   ex12_remove_ilo_account
+   ex13_dump_ilo_nic
+   ex14_sessions
+   ex15_set_uid_light
+   ex16_computer_details
+   ex17_mount_virtual_media_iso
+   ex18_set_server_asset_tag
+   ex19_reset_ilo
+   ex20_get_ilo_nic
+   ex21_set_active_ilo_nic
+   ex22_dump_iml
+   ex23_dump_ilo_event_log
+   ex24_clear_iml
+   ex25_clear_ilo_event_log
+   ex26_configure_snmp
+   ex27_get_schema
+   ex28_set_ilo_timezone
+   ex29_set_ilo_ntp_servers
+   ex30_get_powermetrics_average
+   ex31_set_license_key
+   ex32_set_bios_dhcp
+   ex33_set_bios_service
+   ex34_set_bios_uefi_shell_startup
+   ex35_set_bios_iscsi
+   ex36_set_bios_url_boot_file
+   ex37_set_eskm_primarykeyserver
+   ex38_set_eskm_username_password
+   ex39_test_eskm_connection
+   ex40_reset_eskm_eventlog
+   ex41_dump_eskm_eventlog
+   ex42_get_eskm
+   ex43_get_encryptionsettings
+   ex44_get_logicaldrives
+   ex45_get_license_key
+   ex46_get_ahs_data
+   ex47_clear_ahs_data
+   ex48_set_bios_password
+   
+   

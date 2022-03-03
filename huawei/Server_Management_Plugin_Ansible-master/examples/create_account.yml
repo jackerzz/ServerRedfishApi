@@ -1,0 +1,19 @@
+---
+- hosts: myhosts
+  connection: local
+  name: create ibmc account
+  gather_facts: False
+
+# new_account_user: New user name, A string of 1 to 16 characters
+# new_account_pswd: New password, A string of up to 20 characters
+# roleid: User Role. Available values: Administrator, Operator, Commonuser, Noaccess, CustomRole1, CustomRole2, CustomRole3, CustomRole4
+
+  tasks:
+  - name: create ibmc account
+    ibmc_create_account:
+      ibmc_ip: "{{ ibmc_ip }}"
+      ibmc_user: "{{ ibmc_user }}"
+      ibmc_pswd: "{{ ibmc_pswd }}"
+      new_account_user: "{{ account_user }}"
+      new_account_pswd: "{{ account_pswd }}"
+      roleid: "Administrator"
